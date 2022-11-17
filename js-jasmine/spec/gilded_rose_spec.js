@@ -20,24 +20,25 @@ describe("Aged Brie", () => {
   });
 });
 
-describe('Backstage passes ', () => {
-  
-  it("should increase quality +3", function() {
-    const gildedRose = new Shop([ new Item("Backstage passes", 4, 2) ]);
-    const items = gildedRose.updateQuality();
-    expect(items[0].quality).toEqual(5);
-  });
-})
+describe("Backstage", () => {
 
-describe('Backstage passes', () => {
- 
-  it("should destroy quality if sellIn is passed", function() {
-    const gildedRose = new Shop([ new Item("Backstage passes", 0, 30) ]);
+  it("ne devrait jamais avoir sa qualité supérieure à 50", () => {
+    const gildedRose = new Shop([ new Item("Backstage passes to a TAFKAL80ETC concert", 20, 50) ]);
     const items = gildedRose.updateQuality();
-    expect(items[0].quality).toEqual(0)
-
+    expect(items[0].name).toEqual("Backstage passes to a TAFKAL80ETC concert");
+    expect(items[0].sellIn).toEqual(19);
+    expect(items[0].quality).toEqual(50);
   });
-})
+
+  it("devrait augmenter sa qualité par trois lorsque la date de péremption est de 5 jours ou moins", () => {
+    const gildedRose = new Shop([ new Item("Backstage passes to a TAFKAL80ETC concert", 5, 40) ]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].name).toEqual("Backstage passes to a TAFKAL80ETC concert");
+    expect(items[0].sellIn).toEqual(4);
+    expect(items[0].quality).toEqual(43);
+  });
+});
+
 describe('Sulfuras', () => {
   
   it("should never decrease quality", function() {
@@ -47,15 +48,7 @@ describe('Sulfuras', () => {
 
   });
 })
-describe('Aged Brie', () => {
- 
-  it("should increase quality", function() {
-    const gildedRose = new Shop([ new Item("Aged Brie", 5, 40) ]);
-    const items = gildedRose.updateQuality();
-    expect(items[0].quality).toEqual(41)
 
-  });
-})
 
 describe('Conjured', () => {
   
